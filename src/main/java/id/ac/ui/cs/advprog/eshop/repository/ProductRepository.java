@@ -40,5 +40,14 @@ public class ProductRepository {
                 .orElseThrow(() -> new RuntimeException("Product with ID " + id + " not found."));
     }
 
-
+    public void deleteProduct(String id) {
+        for (int i = 0; i < productData.size(); i++) {
+            if (productData.get(i).getProductId().equals(id)) {
+                Product deletedProduct = productData.get(i);
+                productData.remove(i);
+                return;
+            }
+        }
+        throw new RuntimeException("Product with ID " + id + " not found.");
+    }
 }
