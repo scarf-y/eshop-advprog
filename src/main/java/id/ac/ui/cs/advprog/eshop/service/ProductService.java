@@ -7,4 +7,5 @@ public interface ProductService {
     List<Product> findAll();
     Product findById(String id);
     Product update(String id, Product updatedProduct);
+    void delete(String id);
 }
