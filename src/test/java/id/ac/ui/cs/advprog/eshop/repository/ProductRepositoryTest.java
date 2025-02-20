@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
@@ -137,9 +136,11 @@ class ProductRepositoryTest {
 
         productRepository.deleteProduct(product.getProductId());
 
+        String productId = product.getProductId();
+
         // Ensure that trying to find it now throws an exception
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            productRepository.findById(product.getProductId());
+            productRepository.findById(productId);
         });
         assertTrue(exception.getMessage().contains("Product with ID " + product.getProductId() + " not found."));
 

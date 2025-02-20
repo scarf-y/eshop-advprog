@@ -33,7 +33,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createNewProductAndVerifyInList(ChromeDriver driver) throws Exception {
+    void createNewProductAndVerifyInList(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
 
         // Verify Title of the Page

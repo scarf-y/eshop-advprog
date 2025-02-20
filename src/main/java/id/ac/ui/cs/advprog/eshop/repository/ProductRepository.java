@@ -11,8 +11,8 @@ import java.util.UUID;
 @Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
-    private final String errorMsgPrefix = "Product with ID ";
-    private final String errorMsgSuffix = " not found.";
+    private final static String errorMsgPrefix = "Product with ID ";
+    private final static String errorMsgSuffix = " not found.";
 
     public Product createProduct(Product product) {
         product.setProductId(UUID.randomUUID().toString());
