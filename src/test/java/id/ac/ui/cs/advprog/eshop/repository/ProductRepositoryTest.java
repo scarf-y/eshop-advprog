@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
@@ -112,6 +113,19 @@ class ProductRepositoryTest {
     }
 
     @Test
+    void testUpdateProductWrongID(){
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Intel Evo i7");
+        updatedProduct.setProductQuantity(10);
+        productRepository.createProduct(updatedProduct);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            productRepository.updateProduct("nonexistent-id", updatedProduct);
+        });
+        assertEquals("Product with ID nonexistent-id not found.", exception.getMessage());
+    }
+
+    @Test
     void testDeleteProduct() {
         Product product = new Product();
         product.setProductName("Temporary Product");
@@ -120,6 +134,12 @@ class ProductRepositoryTest {
         productRepository.createProduct(product);
 
         productRepository.deleteProduct(product.getProductId());
+
+        // Ensure that trying to find it now throws an exception
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            productRepository.findById(product.getProductId());
+        });
+        assertTrue(exception.getMessage().contains("Product with ID " + product.getProductId() + " not found."));
 
         // Verify product is deleted
         Iterator<Product> iterator = productRepository.findAll();
@@ -134,6 +154,65 @@ class ProductRepositoryTest {
         });
 
         assertEquals("Product with ID nonexistent-id not found.", exception.getMessage());
+    }
+
+    @Test
+    void testDeleteProductButEmptyList(){
+        ProductRepository emptyRepository = new ProductRepository();
+        String anyId = "any-id";
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            emptyRepository.deleteProduct(anyId);
+        });
+        assertTrue(exception.getMessage().contains("Product with ID " + anyId + " not found."));
+    }
+
+    @Test
+    void testDeleteProduct_MultipleProducts() {
+        ProductRepository repo = new ProductRepository();
+
+        // Create multiple products.
+        Product product1 = new Product();
+        product1.setProductName("Product 1");
+        product1 = repo.createProduct(product1);
+
+        Product product2 = new Product();
+        product2.setProductName("Product 2");
+        product2 = repo.createProduct(product2);
+
+        Product product3 = new Product();
+        product3.setProductName("Product 3");
+        product3 = repo.createProduct(product3);
+
+        // Delete the middle product (product2).
+        repo.deleteProduct(product2.getProductId());
+
+        // Verify product1 and product3 still exist.
+        Product fetched1 = repo.findById(product1.getProductId());
+        Product fetched3 = repo.findById(product3.getProductId());
+        assertEquals(product1.getProductId(), fetched1.getProductId());
+        assertEquals(product3.getProductId(), fetched3.getProductId());
+    }
+
+    @Test
+    void testFindById_ProductExists() {
+        Product product = new Product();
+        product.setProductName("Temporary Product");
+        product.setProductQuantity(20);
+        productRepository.createProduct(product);
+
+        Product foundProduct = productRepository.findById(product.getProductId());
+        assertNotNull(foundProduct);
+        assertEquals(product.getProductId(), foundProduct.getProductId());
+        assertEquals(product.getProductName(), foundProduct.getProductName());
+    }
+
+    @Test
+    void testFindById_ProductDoesNotExist() {
+        String nonExistentId = "non-existent-id";
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            productRepository.findById(nonExistentId);
+        });
+        assertTrue(exception.getMessage().contains("Product with ID " + nonExistentId + " not found."));
     }
 
 }

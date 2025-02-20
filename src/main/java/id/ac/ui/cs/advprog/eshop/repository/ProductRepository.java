@@ -11,6 +11,8 @@ import java.util.UUID;
 @Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
+    private final String errorMsgPrefix = "Product with ID ";
+    private final String errorMsgSuffix = " not found.";
 
     public Product createProduct(Product product) {
         product.setProductId(UUID.randomUUID().toString());
@@ -30,24 +32,23 @@ public class ProductRepository {
                 return updatedProduct;
             }
         }
-        throw new RuntimeException("Product with ID " + id + " not found."); // Jika ID tidak ditemukan
+        throw new RuntimeException(errorMsgPrefix + id + errorMsgSuffix); // Jika ID tidak ditemukan
     }
 
     public Product findById(String id) {
         return productData.stream()
                 .filter(product -> product.getProductId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product with ID " + id + " not found."));
+                .orElseThrow(() -> new RuntimeException(errorMsgPrefix + id + errorMsgSuffix));
     }
 
     public void deleteProduct(String id) {
         for (int i = 0; i < productData.size(); i++) {
             if (productData.get(i).getProductId().equals(id)) {
-                Product deletedProduct = productData.get(i);
                 productData.remove(i);
                 return;
             }
         }
-        throw new RuntimeException("Product with ID " + id + " not found.");
+        throw new RuntimeException(errorMsgPrefix + id + errorMsgSuffix);
     }
 }
