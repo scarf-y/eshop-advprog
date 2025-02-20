@@ -20,7 +20,9 @@ class ProductRepositoryTest {
     ProductRepository productRepository;
 
     @BeforeEach
-    void setUp() {}
+    void setUp() {
+        // empty on purpose, the set-up on every unit test below is done differently
+    }
 
     @Test
     void testCreateAndFind() {
