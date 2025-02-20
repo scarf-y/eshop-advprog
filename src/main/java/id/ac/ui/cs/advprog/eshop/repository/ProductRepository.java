@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,9 +11,9 @@ import java.util.UUID;
 
 @Repository
 public class ProductRepository {
-    private List<Product> productData = new ArrayList<>();
-    private final static String errorMsgPrefix = "Product with ID ";
-    private final static String errorMsgSuffix = " not found.";
+    private final List<Product> productData = new ArrayList<>();
+    private static final String ERRORPREFIX = "Product with ID ";
+    private static final String ERRORSUFFIX= " not found.";
 
     public Product createProduct(Product product) {
         product.setProductId(UUID.randomUUID().toString());
@@ -32,14 +33,14 @@ public class ProductRepository {
                 return updatedProduct;
             }
         }
-        throw new RuntimeException(errorMsgPrefix + id + errorMsgSuffix); // Jika ID tidak ditemukan
+        throw new RuntimeException(ERRORPREFIX + id + ERRORSUFFIX); // Jika ID tidak ditemukan
     }
 
     public Product findById(String id) {
         return productData.stream()
                 .filter(product -> product.getProductId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(errorMsgPrefix + id + errorMsgSuffix));
+                .orElseThrow(() -> new RuntimeException(ERRORPREFIX + id + ERRORSUFFIX));
     }
 
     public void deleteProduct(String id) {
@@ -49,6 +50,6 @@ public class ProductRepository {
                 return;
             }
         }
-        throw new RuntimeException(errorMsgPrefix + id + errorMsgSuffix);
+        throw new RuntimeException(ERRORPREFIX + id + ERRORSUFFIX);
     }
 }
