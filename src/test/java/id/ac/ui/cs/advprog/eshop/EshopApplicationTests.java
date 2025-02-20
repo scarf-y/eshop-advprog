@@ -9,6 +9,7 @@ class EshopApplicationTests {
 
     @Test
     void contextLoads() {
+        // this is empty on purpose
     }
 
     @Test
