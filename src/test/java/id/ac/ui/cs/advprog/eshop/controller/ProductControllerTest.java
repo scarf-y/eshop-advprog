@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductControllerTest {
+class ProductControllerTest {
 
     @Mock
     private ProductService service;
@@ -33,13 +33,13 @@ public class ProductControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         // Build a standalone setup of the controller without loading the full Spring context.
         mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
     }
 
     @Test
-    public void testCreateProductPage() throws Exception {
+    void testCreateProductPage() throws Exception {
         mockMvc.perform(get("/product/create"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("createProduct"))
@@ -47,7 +47,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testCreateProductPost() throws Exception {
+    void testCreateProductPost() throws Exception {
         when(service.create(any(Product.class))).thenReturn(new Product());
 
         mockMvc.perform(post("/product/create")
@@ -59,7 +59,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testProductListPage() throws Exception {
+    void testProductListPage() throws Exception {
         Product product = new Product();
         product.setProductId("123");
         product.setProductName("Test Product");
@@ -72,7 +72,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testEditProductPage() throws Exception {
+    void testEditProductPage() throws Exception {
         Product product = new Product();
         product.setProductId("123");
         product.setProductName("Test Product");
@@ -85,7 +85,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testEditProductPost() throws Exception {
+    void testEditProductPost() throws Exception {
         when(service.update(eq("123"), any(Product.class))).thenReturn(new Product());
 
         mockMvc.perform(post("/product/edit-product/123")
@@ -97,7 +97,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testDeleteProduct() throws Exception {
+    void testDeleteProduct() throws Exception {
         mockMvc.perform(post("/product/delete-product/123"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/list"));
