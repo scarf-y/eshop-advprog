@@ -32,7 +32,7 @@ public class ProductRepository {
                 return updatedProduct;
             }
         }
-        throw new RuntimeException(ERRORPREFIX + id + ERRORSUFFIX); // Jika ID tidak ditemukan
+        throw new ProductNotFoundException(id); // Jika ID tidak ditemukan
     }
 
     public Product findById(String id) {
@@ -49,6 +49,13 @@ public class ProductRepository {
                 return;
             }
         }
-        throw new RuntimeException(ERRORPREFIX + id + ERRORSUFFIX);
+        throw new ProductNotFoundException(id);
     }
+
+    public static class ProductNotFoundException extends RuntimeException {
+        public ProductNotFoundException(String id) {
+            super(ERRORPREFIX + id + ERRORSUFFIX);
+        }
+    }
+
 }
