@@ -10,7 +10,7 @@ ARG USER_NAME=advshop
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 
-RUN addgroup -g ${USER_GID} ${USER_NAME} \
+RUN addgroup -G ${USER_GID} ${USER_NAME} \
     && adduser -h /opt/advshop -D -u ${USER_UID} -G ${USER_NAME} ${USER_NAME} \
 
 USER ${USER_NAME}
