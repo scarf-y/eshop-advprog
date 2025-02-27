@@ -68,7 +68,7 @@ class CarController extends ProductController {
     @Autowired
     private CarServiceImpl carService;
 
-    @GetMapping("createCar")
+    @GetMapping("/createCar")
     public String createCarPage(Model model) {
         Car car = new Car();
         model.addAttribute("car", car);
