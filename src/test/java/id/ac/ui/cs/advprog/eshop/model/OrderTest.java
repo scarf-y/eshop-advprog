@@ -1,10 +1,10 @@
 package id.ac.ui.cs.advprog.eshop.model;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderTest {
     private List<Product> products;
@@ -30,7 +30,7 @@ public class OrderTest {
     void testCreateOrderEmptyProduct() {
         this.products.clear();
 
-        asserThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             Order order = new Order("13652556", this.products, 1708560000L, "Safira Sudrajat");
         });
     }
@@ -42,7 +42,7 @@ public class OrderTest {
         assertSame(this.products, order.getProducts());
         assertEquals(2, order.getProducts().size());
         assertEquals("Sampo Cap Bambang", order.getProducts().get(0).getProductName());
-        assertEquals("Sampo Cap Usep", order.getProducts().get(1).getProductsName());
+        assertEquals("Sampo Cap Usep", order.getProducts().get(1).getProductName());
 
         assertEquals("13652556", order.getId());
         assertEquals(1708560000L, order.getOrderTime());
