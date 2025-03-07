@@ -26,7 +26,7 @@ class PaymentServiceTest {
     private OrderService orderService;
 
     @InjectMocks
-    private PaymentService paymentService;
+    private PaymentServiceImpl paymentService;
 
     List<Order> orders;
     List<Product> products;
@@ -95,7 +95,7 @@ class PaymentServiceTest {
         Payment payment = new Payment("13655", "VOUCHER", new HashMap<>());
 
         when(paymentRepository.findById("13655")).thenReturn(payment);
-        when(orderService.getOrderById("13655")).thenReturn(order);
+        when(orderService.findById("13655")).thenReturn(order);
 
         paymentService.setStatus(payment, "SUCCESS");
 
@@ -103,7 +103,7 @@ class PaymentServiceTest {
         assertEquals("SUCCESS", order.getStatus());
 
         verify(paymentRepository, times(1)).save(payment);
-        verify(orderService, times(1)).updateOrder(order);
+        verify(orderService, times(1)).updateStatus(order.getId(), "SUCCESS");
     }
 
     @Test
@@ -112,7 +112,7 @@ class PaymentServiceTest {
         Order order = new Order("1", null, null, "user", OrderStatus.WAITING_PAYMENT.getValue());
 
         when(paymentRepository.findById("1")).thenReturn(payment);
-        when(orderService.getOrderById("1")).thenReturn(order);
+        when(orderService.findById("1")).thenReturn(order);
 
         paymentService.setStatus(payment, "REJECTED");
 
@@ -120,7 +120,7 @@ class PaymentServiceTest {
         assertEquals("FAILED", order.getStatus());
 
         verify(paymentRepository, times(1)).save(payment);
-        verify(orderService, times(1)).updateOrder(order);
+        verify(orderService, times(1)).updateStatus(order.getId(), "FAILED");
     }
 
     @Test
