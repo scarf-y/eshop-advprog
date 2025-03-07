@@ -7,8 +7,11 @@ import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.ReactiveAdapterRegistry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +21,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class PaymentServiceTest {
     @Mock
     private PaymentRepository paymentRepository;
@@ -47,7 +51,7 @@ class PaymentServiceTest {
         products.add(product1);
         products.add(product2);
 
-        List<Order> orders = new ArrayList<>();
+        orders = new ArrayList<>();
         Order order1 = new Order(
                 "13655", products, 1000L, "Safira Sudrajat"
         );
@@ -80,7 +84,7 @@ class PaymentServiceTest {
 
     @Test
     void testAddPayment_Fail_EmptyData() {
-        Order order = orders.get(2);
+        Order order = orders.get(0);
 
         assertThrows(IllegalArgumentException.class, () -> {
             paymentService.addPayment(order, "VOUCHER", null);
@@ -91,11 +95,14 @@ class PaymentServiceTest {
 
     @Test
     void testSetStatus_Success() {
-        Order order = orders.get(1);
-        Payment payment = new Payment("13655", "VOUCHER", new HashMap<>());
+        Order order = orders.getFirst();
+        Map<String, String> paymentVoucherData = new HashMap<>();
+        paymentVoucherData.put("voucherCode", "ESHOP1234ABC5678");
+        Payment payment = new Payment(order.getId(), "VOUCHER", paymentVoucherData);
 
-        when(paymentRepository.findById("13655")).thenReturn(payment);
-        when(orderService.findById("13655")).thenReturn(order);
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
+        when(paymentRepository.findById(order.getId())).thenReturn(payment);
+        when(orderService.findById(order.getId())).thenReturn(order);
 
         paymentService.setStatus(payment, "SUCCESS");
 

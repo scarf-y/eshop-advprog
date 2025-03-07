@@ -21,8 +21,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
-        if (paymentData == null) {
-            throw new IllegalArgumentException("Payment data cannot be null");
+        if (paymentData == null || paymentData.isEmpty() || order == null) {
+            throw new IllegalArgumentException();
         }
 
         Payment payment = new Payment(order.getId(), method, paymentData);
