@@ -115,13 +115,16 @@ class PaymentServiceTest {
 
     @Test
     void testSetStatus_Rejected() {
-        Payment payment = new Payment("1", "CASH_ON_DELIVERY", new HashMap<>());
-        Order order = new Order("1", null, null, "user", OrderStatus.WAITING_PAYMENT.getValue());
+        Order order = orders.get(1);
+        Map<String, String> paymentCODData = new HashMap<>();
+        paymentCODData.put("address", "Jalan-jalan");
+        paymentCODData.put("deliveryFee", "4444");
+        Payment payment = new Payment(order.getId(), "CASH_ON_DELIVERY", paymentCODData);
 
-        when(paymentRepository.findById("1")).thenReturn(payment);
-        when(orderService.findById("1")).thenReturn(order);
+        when(paymentRepository.findById(order.getId())).thenReturn(payment);
+        when(orderService.findById(order.getId())).thenReturn(order);
 
-        paymentService.setStatus(payment, "REJECTED");
+        payment = paymentService.setStatus(payment, "REJECTED");
 
         assertEquals("REJECTED", payment.getStatus());
         assertEquals("FAILED", order.getStatus());

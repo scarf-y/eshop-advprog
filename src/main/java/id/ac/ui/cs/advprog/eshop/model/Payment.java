@@ -32,7 +32,7 @@ public class Payment {
         } else if ("CASH_ON_DELIVERY".equals(method)) {
             return validateCOD() ? "SUCCESS" : "REJECTED";
         }
-        return "PENDING";
+        return "REJECTED";
     }
 
     private boolean validateVoucher() {
