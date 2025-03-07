@@ -107,7 +107,6 @@ class PaymentServiceTest {
         paymentService.setStatus(payment, "SUCCESS");
 
         assertEquals("SUCCESS", payment.getStatus());
-        assertEquals("SUCCESS", order.getStatus());
 
         verify(paymentRepository, times(1)).save(payment);
         verify(orderService, times(1)).updateStatus(order.getId(), "SUCCESS");
@@ -127,7 +126,6 @@ class PaymentServiceTest {
         payment = paymentService.setStatus(payment, "REJECTED");
 
         assertEquals("REJECTED", payment.getStatus());
-        assertEquals("FAILED", order.getStatus());
 
         verify(paymentRepository, times(1)).save(payment);
         verify(orderService, times(1)).updateStatus(order.getId(), "FAILED");
