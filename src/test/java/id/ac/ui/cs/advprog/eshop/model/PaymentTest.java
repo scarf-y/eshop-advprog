@@ -14,20 +14,16 @@ class PaymentTest {
 
     @BeforeEach
     void setUp() {
-        // Data valid untuk Voucher Code
         validVoucherData = new HashMap<>();
         validVoucherData.put("voucherCode", "ESHOP1234ABC5678");
 
-        // Data invalid untuk Voucher Code
         invalidVoucherData = new HashMap<>();
         invalidVoucherData.put("voucherCode", "INVALIDVOUCHER");
 
-        // Data valid untuk Cash On Delivery
         validCODData = new HashMap<>();
         validCODData.put("address", "Jl. Bintara No.1");
         validCODData.put("deliveryFee", "10000");
 
-        // Data invalid untuk Cash On Delivery (kosong/null)
         invalidCODData = new HashMap<>();
         invalidCODData.put("address", "");
         invalidCODData.put("deliveryFee", null);
@@ -48,7 +44,7 @@ class PaymentTest {
     @Test
     void testCreatePaymentWithValidCOD() {
         Payment payment = new Payment("3", "CASH_ON_DELIVERY", validCODData);
-        assertEquals("PENDING", payment.getStatus()); // Karena belum ada aturan SUCCESS
+        assertEquals("SUCCESS", payment.getStatus());
     }
 
     @Test
