@@ -138,3 +138,24 @@ Example: A single interface covering both car and product methods makes implemen
 Tightly coupled code makes testing and future changes difficult.
 
 Example: If CarController depends directly on CarServiceImpl, it’s harder to swap implementations or use mocks for testing.
+
+
+## Module 4
+
+1. Reflection on TDD Flow Based on Percival (2017)
+Honestly, following the TDD flow has been quite frustrating, especially when working with mocks. 
+The idea of writing tests before the actual implementation sounds great in theory, but in practice,
+it feels like I spend more time fixing my test cases than actually developing features.
+The biggest issue I faced was dealing with Mockito, where I had to mock dependencies correctly. 
+Sometimes, the mocks didn't return what I expected, and I had to debug the tests instead of the actual code.
+<br/>
+Another problem was that writing tests for every small part of the system took way longer than I expected. Instead of making development faster, it felt like the tests slowed me down. Maybe I need to plan my tests better next time instead of just following TDD strictly. I also think I need to improve my understanding of mocking and dependency injection because that part gave me the most trouble.
+
+
+2. Reflection on F.I.R.S.T. Principle
+I’m not completely sure if my tests fully followed the F.I.R.S.T. principle.
+Some of them definitely felt fast and isolated, but I have doubts about the self-validating part.
+There were cases where the test passed, but I wasn’t 100% sure if the logic was actually correct, or if I just mocked the wrong thing.
+For example, when testing setStatus(), I relied on mocks for orderService and paymentRepository, and I realized that if my mocks were incorrect, my test could pass even if the actual implementation was wrong.
+<br/>Another issue is repeatability. I think my tests should always produce the same result, but since some tests relied on lists and objects that I initialized in setUp(), I’m not sure if they are truly independent. Maybe next time, I need to double-check that each test is completely isolated and does not depend on shared objects from setUp().
+<br/>Overall, while the tests helped catch some bugs, they also made development more time-consuming. I think I need to find a better balance between writing tests and implementing features efficiently.
