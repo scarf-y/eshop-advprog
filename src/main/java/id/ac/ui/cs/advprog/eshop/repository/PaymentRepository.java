@@ -13,7 +13,8 @@ public class PaymentRepository {
     public Payment save(Payment payment) {
         for (int i = 0; i < paymentData.size(); i++) {
             if (paymentData.get(i).getId().equals(payment.getId())) {
-                paymentData.set(i, payment);
+                paymentData.remove(i);
+                paymentData.add(i, payment);
                 return payment;
             }
         }
