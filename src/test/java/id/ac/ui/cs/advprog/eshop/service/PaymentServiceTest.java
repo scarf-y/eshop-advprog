@@ -181,4 +181,11 @@ class PaymentServiceTest {
         assertTrue(payments.isEmpty());
         verify(paymentRepository, times(1)).findAll();
     }
+
+    @Test
+    void testAddPaymentInvalidOrder() {
+        HashMap<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP1234ABC5678");
+        assertThrows(IllegalArgumentException.class, () -> paymentService.addPayment(null, "VOUCHER", paymentData));
+    }
 }
