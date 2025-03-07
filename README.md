@@ -143,6 +143,7 @@ Example: If CarController depends directly on CarServiceImpl, it’s harder to s
 ## Module 4
 
 1. Reflection on TDD Flow Based on Percival (2017)
+<br/>
 Honestly, following the TDD flow has been quite frustrating, especially when working with mocks. 
 The idea of writing tests before the actual implementation sounds great in theory, but in practice,
 it feels like I spend more time fixing my test cases than actually developing features.
@@ -153,6 +154,7 @@ Another problem was that writing tests for every small part of the system took w
 
 
 2. Reflection on F.I.R.S.T. Principle
+<br/>
 I’m not completely sure if my tests fully followed the F.I.R.S.T. principle.
 Some of them definitely felt fast and isolated, but I have doubts about the self-validating part.
 There were cases where the test passed, but I wasn’t 100% sure if the logic was actually correct, or if I just mocked the wrong thing.
