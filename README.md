@@ -152,7 +152,7 @@ Sometimes, the mocks didn't return what I expected, and I had to debug the tests
 <br/>
 Another problem was that writing tests for every small part of the system took way longer than I expected. Instead of making development faster, it felt like the tests slowed me down. Maybe I need to plan my tests better next time instead of just following TDD strictly. I also think I need to improve my understanding of mocking and dependency injection because that part gave me the most trouble.
 
-
+<br/>
 2. Reflection on F.I.R.S.T. Principle
 <br/>
 I’m not completely sure if my tests fully followed the F.I.R.S.T. principle.
